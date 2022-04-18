@@ -1,0 +1,315 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.game {
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    background-color: #0e0e0e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.board{
+    width: 300px;
+    height: 300px;
+    transform-style: preserve-3d;
+}
+
+.board-line{
+    position: absolute;
+    background-color: #fafafa;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    border-radius:10px;
+}
+
+.board-line-1{
+    height: 10px;
+    top: 95px;
+    animation-name: rowLine;
+}
+
+.board-line-2{
+    height: 10px;
+    top: 195px;
+    animation-name: rowLine2;
+}
+
+.board-line-3{
+    width: 10px;
+    left: 95px;
+    animation-name: columnLine;
+}
+
+.board-line-4{
+    width: 10px;
+    left: 195px;
+    animation-name: columnLine2;
+}
+
+svg {
+    height: 100px;
+    width: 100px;
+}
+
+input {
+    opacity: 0;
+}
+
+label {
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+    z-index: 2;
+}
+
+input, span, label {
+    position: absolute;
+}
+
+circle, path {
+    animation-fill-mode: forwards;
+    animation-name: draw;
+}
+
+circle {
+    animation-duration: 0.5s;
+    stroke: #f62459;
+}
+
+path {
+    animation-duration: 0.25s;
+    stroke: #36dbd7;
+}
+
+span {
+    display: none;
+    transform: translate3d(0, 0, 3px);
+}
+
+input:checked + span {
+    display: block;
+}
+
+.round {
+    transform: rotateY(180deg) rotate(0);
+}
+
+.cross path:nth-of-type(2) {
+    animation-delay: 0.25s;
+}
+
+.board-result {
+    animation: fadeBg 0.25s 0.5s;
+    animation-fill-mode: backwards;
+    background: transparent;
+    display: none;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    transform: translate3d(0, 0, 4px);
+    width: 100%;
+}
+
+.result-content {
+    animation: flyIn 0.25s 0.75s;
+    animation-fill-mode: backwards;
+    background: #fafafa;
+    border-radius: 10px;
+    color: #1f3a93;
+    filter: drop-shadow(0 10px 10px #000);
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-title {
+    font-size: 24px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.result-details {
+    margin: 0;
+}
+
+.result-button {
+    cursor: pointer;
+    padding: 8px 24px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #1f3a93;
+    font-size: 12px;
+    color: #fafafa;
+    filter: drop-shadow(0 5px 5px #000);
+    transition: transform 0.1s, filter 0.1s;
+}
+
+button:hover {
+    filter: drop-shadow(0 5px 4px #000);
+    transform: translateY(1px);
+}
+
+button:active {
+    transform: translateY(5px);
+    filter: drop-shadow(0 0 0 transparent);
+}
+
+.result-emoji {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.result-icon path:nth-of-type(1) {
+    animation-delay: 1s;
+}
+
+.result-icon path:nth-of-type(2) {
+    animation-delay: 1.4s;
+}
+
+.result-icon circle {
+    animation-delay: 1s;
+}
+
+.result-firework-icon {
+    animation: fly 0.75s 1s;
+    animation-fill-mode: backwards;
+    animation-timing-function: cubic-bezier(0, 0.64, 0.25, 1.01);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    font-size: 32px;
+    transform: rotate(calc(var(--r) * 1deg)) translateY(calc(var(--y) * -1px));
+}
+
+:checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(even) {
+    transform: translate3d(0, 0, 2px);
+}
+
+:checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(even),
+:checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(odd),
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ label:nth-of-type(odd) {
+    transform: translate3d(0, 0, -1px);
+}
+
+:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .board-result-draw {
+    display: block;
+}
+
+#x-0:checked ~ #x-1:checked ~ #x-2:checked ~ .board-result-x,
+#x-3:checked ~ #x-4:checked ~ #x-5:checked ~ .board-result-x,
+#x-6:checked ~ #x-7:checked ~ #x-8:checked ~ .board-result-x,
+#x-0:checked ~ #x-3:checked ~ #x-6:checked ~ .board-result-x,
+#x-1:checked ~ #x-4:checked ~ #x-7:checked ~ .board-result-x,
+#x-2:checked ~ #x-5:checked ~ #x-8:checked ~ .board-result-x,
+#x-0:checked ~ #x-4:checked ~ #x-8:checked ~ .board-result-x,
+#x-2:checked ~ #x-4:checked ~ #x-6:checked ~ .board-result-x,
+#o-0:checked ~ #o-1:checked ~ #o-2:checked ~ .board-result-o,
+#o-3:checked ~ #o-4:checked ~ #o-5:checked ~ .board-result-o,
+#o-6:checked ~ #o-7:checked ~ #o-8:checked ~ .board-result-o,
+#o-0:checked ~ #o-3:checked ~ #o-6:checked ~ .board-result-o,
+#o-1:checked ~ #o-4:checked ~ #o-7:checked ~ .board-result-o,
+#o-2:checked ~ #o-5:checked ~ #o-8:checked ~ .board-result-o,
+#o-0:checked ~ #o-4:checked ~ #o-8:checked ~ .board-result-o,
+#o-2:checked ~ #o-4:checked ~ #o-6:checked ~ .board-result-o {
+    display: block;
+}
+
+#x-0:checked ~ #x-1:checked ~ #x-2:checked ~ .board-result-x ~ .board-result-draw,
+#x-3:checked ~ #x-4:checked ~ #x-5:checked ~ .board-result-x ~ .board-result-draw,
+#x-6:checked ~ #x-7:checked ~ #x-8:checked ~ .board-result-x ~ .board-result-draw,
+#x-0:checked ~ #x-3:checked ~ #x-6:checked ~ .board-result-x ~ .board-result-draw,
+#x-1:checked ~ #x-4:checked ~ #x-7:checked ~ .board-result-x ~ .board-result-draw,
+#x-2:checked ~ #x-5:checked ~ #x-8:checked ~ .board-result-x ~ .board-result-draw,
+#x-0:checked ~ #x-4:checked ~ #x-8:checked ~ .board-result-x ~ .board-result-draw,
+#x-2:checked ~ #x-4:checked ~ #x-6:checked ~ .board-result-x ~ .board-result-draw,
+#o-0:checked ~ #o-1:checked ~ #o-2:checked ~ .board-result-o ~ .board-result-draw,
+#o-3:checked ~ #o-4:checked ~ #o-5:checked ~ .board-result-o ~ .board-result-draw,
+#o-6:checked ~ #o-7:checked ~ #o-8:checked ~ .board-result-o ~ .board-result-draw,
+#o-0:checked ~ #o-3:checked ~ #o-6:checked ~ .board-result-o ~ .board-result-draw,
+#o-1:checked ~ #o-4:checked ~ #o-7:checked ~ .board-result-o ~ .board-result-draw,
+#o-2:checked ~ #o-5:checked ~ #o-8:checked ~ .board-result-o ~ .board-result-draw,
+#o-0:checked ~ #o-4:checked ~ #o-8:checked ~ .board-result-o ~ .board-result-draw,
+#o-2:checked ~ #o-4:checked ~ #o-6:checked ~ .board-result-o ~ .board-result-draw {
+    display: none;
+}
+
+@keyframes rowLine {
+    from {width:0;}
+    to {width:300px;}
+}
+
+@keyframes rowLine2 {
+    from {width:0;}
+    to {width:300px;}
+}
+
+@keyframes columnLine {
+    from {height:0;}
+    to {height:300px;}
+}
+
+@keyframes columnLine2 {
+    from {height:0;}
+    to {height:300px;}
+}
+
+@keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeBg {
+    from {
+      background: rgba(31,58,147,0);
+    }
+}
+
+@keyframes fly {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    5%, 50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+}
+
+@keyframes flyIn {
+    from {
+        transform: translateY(100%) scale(0);
+    }
+}
